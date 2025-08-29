@@ -32,7 +32,7 @@ class _CameraAppState extends State<CameraApp> {
   initalizeCamera() async {
     try {
       // 4. 가장 첫 번째 카메라로 카메라 설정하기
-      controller = CameraController(_cameras[0], ResolutionPreset.mazx);
+      controller = CameraController(_cameras[0], ResolutionPreset.max);
 
       // 5. 카메라 초기화
       await controller.initialize();
@@ -51,6 +51,23 @@ class _CameraAppState extends State<CameraApp> {
         }
       }
     }
+  }
 
+  void dispose() {
+    // 컨트롤러 삭제
+    controller.dispose();
+    super.dispose();
+  }
+
+  Widget build(BuildContext contextr) {
+
+    // 6. 카메라 초기화 상태 확인
+    if (!controller.value.isInitialized) {
+      return Container();
+    }
+    return MaterialApp(
+      // 7. 카메라 보여주기
+      home: CameraPreview(controller),
+    );
   }
 }
